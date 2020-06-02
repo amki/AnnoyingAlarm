@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,6 +62,7 @@ public class TimerListFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         RecyclerView recyclerView = view.findViewById(R.id.rv_timers);
 
         if (mColumnCount <= 1) {
@@ -72,5 +75,13 @@ public class TimerListFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), mColumnCount));
         }
         recyclerView.setAdapter(new MyTimerRecyclerViewAdapter(DummyContent.ITEMS));
+
+        view.findViewById(R.id.btn_new_timer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(TimerListFragment.this)
+                        .navigate(R.id.action_timerListFragment_to_timerFragment);
+            }
+        });
     }
 }

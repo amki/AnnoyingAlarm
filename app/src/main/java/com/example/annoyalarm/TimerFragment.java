@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import java.util.Calendar;
 
 public class TimerFragment extends Fragment {
 
@@ -23,9 +26,16 @@ public class TimerFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView tv_timerId = (TextView) view.findViewById(R.id.tv_timerId);
+        TextView tv_timerId = view.findViewById(R.id.tv_timerId);
         Bundle b = this.getArguments();
-        tv_timerId.setText(b.getString("timerId"));
+
+        // If b is null this is a new timer to be created
+        if(b == null) {
+            tv_timerId.setText("New Timer");
+        } else {
+            tv_timerId.setText(b.getString("timerId"));
+        }
+
         view.findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
