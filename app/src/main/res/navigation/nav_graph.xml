@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    android:label="@string/timer_fragment_label"
+    app:startDestination="@id/FirstFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.example.annoyalarm.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/action_FirstFragment_to_timerListFragment"
+            app:destination="@id/timerListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.example.annoyalarm.TimerFragment"
+        android:label="fragment_timer"
+        tools:layout="@layout/fragment_timer" >
+        <action
+            android:id="@+id/action_timerFragment_to_timerListFragment"
+            app:destination="@id/timerListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timerListFragment"
+        android:name="com.example.annoyalarm.TimerListFragment"
+        android:label="fragment_timer_list_list"
+        tools:layout="@layout/fragment_timer_list_list" >
+        <action
+            android:id="@+id/action_timerListFragment_to_timerFragment"
+            app:destination="@id/timerFragment" />
+    </fragment>
+</navigation>
