@@ -4,17 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     android:label="@string/timer_fragment_label"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/timerListFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.annoyalarm.FirstFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-        <action
-            android:id="@+id/action_FirstFragment_to_timerListFragment"
-            app:destination="@id/timerListFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_first"/>
     <fragment
         android:id="@+id/timerFragment"
         android:name="com.example.annoyalarm.TimerFragment"
