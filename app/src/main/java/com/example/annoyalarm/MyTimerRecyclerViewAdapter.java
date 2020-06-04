@@ -1,5 +1,6 @@
 package com.example.annoyalarm;
 
+import androidx.lifecycle.LiveData;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +21,10 @@ import java.util.List;
  */
 public class MyTimerRecyclerViewAdapter extends RecyclerView.Adapter<MyTimerRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private List<TimerModel> timers;
 
-    public MyTimerRecyclerViewAdapter(List<DummyItem> items) {
-        mValues = items;
+    public MyTimerRecyclerViewAdapter(List<TimerModel> timers) {
+        this.timers = timers;
     }
 
     @Override
@@ -35,30 +36,34 @@ public class MyTimerRecyclerViewAdapter extends RecyclerView.Adapter<MyTimerRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mItem = timers.get(position);
+        holder.mIdView.setText(String.valueOf(timers.get(position).id));
+        holder.mContentView.setText("test");
         holder.mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle b = new Bundle();
-                b.putString("timerId",mValues.get(position).id);
+                b.putString("timerId", String.valueOf("42"));
                 Navigation.findNavController(holder.mView)
                         .navigate(R.id.action_timerListFragment_to_timerFragment, b);
             }
         });
     }
 
+    public void setTimers(List<TimerModel> timers) {
+        this.timers = timers;
+    }
+
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return timers.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public TimerModel mItem;
 
         public ViewHolder(View view) {
             super(view);

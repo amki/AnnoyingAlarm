@@ -1,22 +1,27 @@
 package com.example.annoyalarm;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.annoyalarm.dummy.DummyContent;
+
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -27,6 +32,7 @@ public class TimerListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private TimerViewModel timers;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,7 +68,7 @@ public class TimerListFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        timers = new ViewModelProvider(requireActivity()).get(TimerViewModel.class);
         RecyclerView recyclerView = view.findViewById(R.id.rv_timers);
 
         if (mColumnCount <= 1) {
@@ -74,7 +80,17 @@ public class TimerListFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), mColumnCount));
         }
-        recyclerView.setAdapter(new MyTimerRecyclerViewAdapter(DummyContent.ITEMS));
+        final MyTimerRecyclerViewAdapter rcva = new MyTimerRecyclerViewAdapter(timers.getTimers().getValue());
+        recyclerView.setAdapter(rcva);
+
+        timers.getTimers().observe(getViewLifecycleOwner(), new Observer<List<TimerModel>>() {
+            @Override
+            public void onChanged(List<TimerModel> timerModels) {
+                Log.e("LEL","MODEL HAS CHANGED");
+                rcva.setTimers(timerModels);
+                rcva.notifyDataSetChanged();
+            }
+        });
 
         view.findViewById(R.id.btn_new_timer).setOnClickListener(new View.OnClickListener() {
             @Override
